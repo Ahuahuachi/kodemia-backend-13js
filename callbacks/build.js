@@ -52,6 +52,7 @@ const hacerMezcla = (wallNumber) => {
     }, 3000);
   });
 };
+
 const ponerLadrillos = (wallNumber) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -60,19 +61,31 @@ const ponerLadrillos = (wallNumber) => {
     }, 3000);
   });
 };
-// const aplanado = (callback) => {
-//   setTimeout(() => {
-//     callback();
-//   }, 4000);
-// };
-// const pintar = (callback) => {
-//   setTimeout(() => {
-//     callback();
-//   }, 2000);
-// };
+
+const aplanado = (wallNumber) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log(`Se aplanó de muro ${wallNumber}`);
+      resolve(wallNumber);
+    }, 4000);
+  });
+};
+
+const pintar = (wallNumber) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log(`Se pintó el muro ${wallNumber}`);
+      resolve(wallNumber);
+    }, 2000);
+  });
+};
 
 const imprimirError = (mensaje) => {
   console.error("Error:", mensaje);
+};
+
+const imprimirFinal = () => {
+  console.log(`Muro terminado`);
 };
 
 medirEspacio(1)
@@ -81,40 +94,4 @@ medirEspacio(1)
   .then(hacerMezcla)
   .then(ponerLadrillos)
   .catch(imprimirError)
-  .finally(() => {
-    console.log("Proceso terminado");
-  }); // imprimir(mensaje)
-
-// const construirMuro = () => {
-//   medirEspacio(() => {
-//     console.log("El espacio fue medido");
-//     comprarMaterial(() => {
-//       console.log("Ya compre material");
-//       construirEsqueleto(() => {
-//         console.log("Equeleto terminado");
-//         hacerMezcla(() => {
-//           console.log("La mezcla esta lista");
-//           ponerLadrillos(() => {
-//             console.log("Ladrillos listos");
-//             aplanado(() => {
-//               console.log("Muro aplanado");
-//               pintar(() => {
-//                 console.log("Muro terminado");
-//               });
-//             });
-//           });
-//         });
-//       });
-//     });
-//   });
-// };
-
-// console.log("Iniciando obra");
-
-// for (let index = 0; index <= 4; index++) {
-// construirMuro();
-// construirMuro();
-// construirMuro();
-// construirMuro();
-
-// }
+  .finally(imprimirFinal);
