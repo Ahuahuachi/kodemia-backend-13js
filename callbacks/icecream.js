@@ -18,18 +18,27 @@ let stocks = {
  *        fruits: "strawberry"
  *        liquid: "ice"
  *        holder: "cone"
-*         toppings: "chocolate"
+*         toppings: "chocolate",
+          complete: false,
+          fruit_added: false,
+          liquid_added: false
           }
 */
 
 // preparación del frappe
-const order = (frappeOrder) => {
+const order = async (frappeOrder) => {
   return new Promise((resolve, reject) => {
     if (typeof frappeOrder != "object") {
       reject("Order is not an Object");
     } else {
       setTimeout(() => {
-        console.log("Order placed");
+        // Cambia el estado de la orden
+        frappeOrder.status = "Order placed";
+
+        // Imprime el estado actual
+        console.log("Order placed:", frappeOrder);
+
+        // Cumple la promesa
         resolve(frappeOrder);
       }, 2000);
     }
@@ -39,8 +48,14 @@ const order = (frappeOrder) => {
 const chopFruit = (frappeOrder) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (frappeOrder.fruit) {
-        console.log(`${frappeOrder.fruit} chopped`);
+      if (frappeOrder.fruits) {
+        // Cambia el estado de la orden (fruit_chopped)
+        frappeOrder.status = "Fruit added";
+
+        // Imprime el estado actual de la orden
+        console.log("Order status:", frappeOrder);
+
+        // Cumple la promesa
         resolve(frappeOrder);
       } else {
         reject("Fruit not selected");
@@ -52,7 +67,13 @@ const chopFruit = (frappeOrder) => {
 const addLiquid = (frappeOrder) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log(`${frappeOrder.liquid} added`);
+      // Cambia el estado de la orden
+      frappeOrder.status = "Liquid added";
+
+      // Imprime el estado actual
+      console.log("Order status:", frappeOrder);
+
+      // Cumple la promesa
       resolve(frappeOrder);
     }, 1000);
   });
@@ -89,6 +110,7 @@ const serve = (frappeOrder) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       console.log("Frappe served");
+      frappeOrder.complete = true;
       resolve(frappeOrder);
     }, 2000);
   });
@@ -102,41 +124,20 @@ const printFinal = () => {
   console.log("Process terminated");
 };
 
-order({
-  fruit: stocks.fruits[1],
-  liquid: stocks.liquid[1],
-  holder: stocks.holder[2],
-  toppings: stocks.toppings[1],
-})
-  .then(chopFruit)
-  .then(addLiquid)
-  .then(startMachine)
-  .then(placeOnHolder)
-  .then(addToppings)
-  .then(serve)
-  .catch(printError)
-  .finally(printFinal);
-
-order({
-  liquid: stocks.liquid[1],
-  holder: stocks.holder[1],
+let frappeOrder1 = {
+  fruits: stocks.fruits[0],
+  liquid: stocks.liquid[0],
+  holder: stocks.holder[0],
   toppings: stocks.toppings[0],
-})
-  .then(chopFruit)
-  .then(addLiquid)
-  .then(startMachine)
-  .then(placeOnHolder)
-  .then(addToppings)
-  .then(serve)
-  .catch(printError)
-  .finally(printFinal);
+  status: "",
+  completed: false,
+};
 
-order(1)
-  .then(chopFruit)
-  .then(addLiquid)
-  .then(startMachine)
-  .then(placeOnHolder)
-  .then(addToppings)
-  .then(serve)
-  .catch(printError)
-  .finally(printFinal);
+const main = async () => {
+  await order(frappeOrder1);
+  await chopFruit(frappeOrder1);
+  await addLiquid(frappeOrder1);
+};
+
+main();
+console.log("Esto se ejecuta asincronamente");
