@@ -53,7 +53,7 @@ const chopFruit = (frappeOrder) => {
         frappeOrder.status = "Fruit added";
 
         // Imprime el estado actual de la orden
-        console.log("Order status:", frappeOrder);
+        console.log("Order:", frappeOrder);
 
         // Cumple la promesa
         resolve(frappeOrder);
@@ -71,7 +71,7 @@ const addLiquid = (frappeOrder) => {
       frappeOrder.status = "Liquid added";
 
       // Imprime el estado actual
-      console.log("Order status:", frappeOrder);
+      console.log("Order:", frappeOrder);
 
       // Cumple la promesa
       resolve(frappeOrder);
@@ -82,7 +82,8 @@ const addLiquid = (frappeOrder) => {
 const startMachine = (frappeOrder) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log("Machine started");
+      frappeOrder.status = "Machine started";
+      console.log("Order:", frappeOrder);
       resolve(frappeOrder);
     }, 1000);
   });
@@ -91,7 +92,8 @@ const startMachine = (frappeOrder) => {
 const placeOnHolder = (frappeOrder) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log(`${frappeOrder.holder} selected`);
+      frappeOrder.status = `${frappeOrder.holder} selected`;
+      console.log("Order:", frappeOrder);
       resolve(frappeOrder);
     }, 1000);
   });
@@ -100,7 +102,8 @@ const placeOnHolder = (frappeOrder) => {
 const addToppings = (frappeOrder) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log(`${frappeOrder.toppings} added`);
+      frappeOrder.status = `${frappeOrder.toppings} added`;
+      console.log("Order:", frappeOrder);
       resolve(frappeOrder);
     }, 3000);
   });
@@ -109,7 +112,8 @@ const addToppings = (frappeOrder) => {
 const serve = (frappeOrder) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      console.log("Frappe served");
+      frappeOrder.status = "Frappe served";
+      console.log("Order:", frappeOrder);
       frappeOrder.complete = true;
       resolve(frappeOrder);
     }, 2000);
@@ -137,6 +141,10 @@ const main = async () => {
   await order(frappeOrder1);
   await chopFruit(frappeOrder1);
   await addLiquid(frappeOrder1);
+  await startMachine(frappeOrder1);
+  await placeOnHolder(frappeOrder1);
+  await addToppings(frappeOrder1);
+  await serve(frappeOrder1);
 };
 
 main();
